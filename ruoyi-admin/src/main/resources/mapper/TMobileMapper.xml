@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.web.controller.mobile.mapper.TMobileMapper">
+    
+    <resultMap type="TMobile" id="TMobileResult">
+        <result property="id"    column="id"    />
+        <result property="assetCode"    column="asset_code"    />
+        <result property="imei"    column="imei"    />
+        <result property="type"    column="type"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectTMobileVo">
+        select id, asset_code, imei, type, del_flag, status from t_mobile
+    </sql>
+
+    <select id="selectTMobileList" parameterType="TMobile" resultMap="TMobileResult">
+        <include refid="selectTMobileVo"/>
+        <where>  
+            <if test="assetCode != null  and assetCode != ''"> and asset_code like concat('%', #{assetCode}, '%')</if>
+            <if test="imei != null  and imei != ''"> and imei = #{imei}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectTMobileById" parameterType="Integer" resultMap="TMobileResult">
+        <include refid="selectTMobileVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTMobile" parameterType="TMobile" useGeneratedKeys="true" keyProperty="id">
+        insert into t_mobile
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="assetCode != null  and assetCode != ''">asset_code,</if>
+            <if test="imei != null  and imei != ''">imei,</if>
+            <if test="type != null  and type != ''">type,</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag,</if>
+            <if test="status != null  and status != ''">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="assetCode != null  and assetCode != ''">#{assetCode},</if>
+            <if test="imei != null  and imei != ''">#{imei},</if>
+            <if test="type != null  and type != ''">#{type},</if>
+            <if test="delFlag != null  and delFlag != ''">#{delFlag},</if>
+            <if test="status != null  and status != ''">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTMobile" parameterType="TMobile">
+        update t_mobile
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="assetCode != null  and assetCode != ''">asset_code = #{assetCode},</if>
+            <if test="imei != null  and imei != ''">imei = #{imei},</if>
+            <if test="type != null  and type != ''">type = #{type},</if>
+            <if test="delFlag != null  and delFlag != ''">del_flag = #{delFlag},</if>
+            <if test="status != null  and status != ''">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTMobileById" parameterType="Integer">
+        delete from t_mobile where id = #{id}
+    </delete>
+
+    <delete id="deleteTMobileByIds" parameterType="String">
+        delete from t_mobile where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
