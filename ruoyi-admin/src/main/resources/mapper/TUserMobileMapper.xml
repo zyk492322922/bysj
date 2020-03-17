@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.web.controller.userMobile.mapper.TUserMobileMapper">
+    
+    <resultMap type="TUserMobile" id="TUserMobileResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="mobileId"    column="mobile_id"    />
+        <result property="serverIp"    column="server_ip"    />
+        <result property="usedWay"    column="used_way"    />
+    </resultMap>
+
+    <sql id="selectTUserMobileVo">
+        select id, user_id, mobile_id, server_ip, used_way from t_user_mobile
+    </sql>
+
+    <select id="selectTUserMobileList" parameterType="TUserMobile" resultMap="TUserMobileResult">
+        <include refid="selectTUserMobileVo"/>
+        <where>  
+            <if test="serverIp != null  and serverIp != ''"> and server_ip = #{serverIp}</if>
+            <if test="usedWay != null  and usedWay != ''"> and used_way = #{usedWay}</if>
+        </where>
+    </select>
+    
+    <select id="selectTUserMobileById" parameterType="Integer" resultMap="TUserMobileResult">
+        <include refid="selectTUserMobileVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTUserMobile" parameterType="TUserMobile" useGeneratedKeys="true" keyProperty="id">
+        insert into t_user_mobile
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">user_id,</if>
+            <if test="mobileId != null ">mobile_id,</if>
+            <if test="serverIp != null  and serverIp != ''">server_ip,</if>
+            <if test="usedWay != null  and usedWay != ''">used_way,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null ">#{userId},</if>
+            <if test="mobileId != null ">#{mobileId},</if>
+            <if test="serverIp != null  and serverIp != ''">#{serverIp},</if>
+            <if test="usedWay != null  and usedWay != ''">#{usedWay},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTUserMobile" parameterType="TUserMobile">
+        update t_user_mobile
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null ">user_id = #{userId},</if>
+            <if test="mobileId != null ">mobile_id = #{mobileId},</if>
+            <if test="serverIp != null  and serverIp != ''">server_ip = #{serverIp},</if>
+            <if test="usedWay != null  and usedWay != ''">used_way = #{usedWay},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTUserMobileById" parameterType="Integer">
+        delete from t_user_mobile where id = #{id}
+    </delete>
+
+    <delete id="deleteTUserMobileByIds" parameterType="String">
+        delete from t_user_mobile where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
