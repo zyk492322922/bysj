@@ -1,5 +1,9 @@
 package com.ruoyi.web.controller.userMobile.controller;
 
+import com.ruoyi.system.domain.SysUser;
+import com.ruoyi.system.service.ISysUserService;
+import com.ruoyi.web.controller.mobile.domain.TMobile;
+import com.ruoyi.web.controller.mobile.service.ITMobileService;
 import com.ruoyi.web.controller.userMobile.domain.TUserMobile;
 import com.ruoyi.web.controller.userMobile.service.ITUserMobileService;
 import org.springframework.stereotype.Controller;
@@ -9,6 +13,7 @@ import java.util.List;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +37,13 @@ import com.ruoyi.common.core.page.TableDataInfo;
 @RequestMapping("/system/userMobile")
 public class TUserMobileController extends BaseController
 {
-    private String prefix = "/userMobile";
+    private String prefix = "userMobile";
+
+    @Autowired
+    private ISysUserService iSysUserService;
+
+    @Autowired
+    private ITMobileService itMobileService;
 
     @Autowired
     private ITUserMobileService tUserMobileService;
@@ -75,8 +86,14 @@ public class TUserMobileController extends BaseController
      * 新增用户和手机持有关联
      */
     @GetMapping("/add")
-    public String add()
+    public String add(Model model)
     {
+        SysUser user = new SysUser();
+        user.setStatus("0");
+        model.addAttribute("userList",iSysUserService.selectUserList(user));
+        TMobile mobile = new TMobile();
+        mobile.setStatus("0");
+        model.addAttribute("mobileList",itMobileService.selectTMobileList(mobile));
         return prefix + "/add";
     }
 
@@ -89,7 +106,12 @@ public class TUserMobileController extends BaseController
     @ResponseBody
     public AjaxResult addSave(TUserMobile tUserMobile)
     {
-        return toAjax(tUserMobileService.insertTUserMobile(tUserMobile));
+        tUserMobileService.insertTUserMobile(tUserMobile);
+        TMobile mobile = new TMobile();
+        mobile.setId(tUserMobile.getMobileId());
+        mobile.setStatus("1");
+        itMobileService.updateTMobile(mobile);
+        return toAjax(1);
     }
 
     /**

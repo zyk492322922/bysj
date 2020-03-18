@@ -96,7 +96,7 @@
                 <version>3.0.0</version>   
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <warName>${project.artifactId}</warName>
+                    <!--<warName>${project.artifactId}</warName>-->
                 </configuration>   
 		   </plugin>   
         </plugins>
