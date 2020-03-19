@@ -8,9 +8,8 @@
     <artifactId>bysj</artifactId>
     <version>4.1.0</version>
 
-    <name>ruoyi</name>
-	<url>http://www.ruoyi.vip</url>
-    <description>若依管理系统</description>
+    <name>bysj</name>
+    <description>管理系统</description>
     
     <properties>
 	    <ruoyi.version>4.1.0</ruoyi.version>
@@ -171,35 +170,35 @@
             <!-- 定时任务-->
 			<dependency>
 				<groupId>com.bysj</groupId>
-				<artifactId>ruoyi-quartz</artifactId>
+				<artifactId>bysj-quartz</artifactId>
 				<version>${ruoyi.version}</version>
 			</dependency>
 	
 			<!-- 代码生成-->
 			<dependency>
 				<groupId>com.bysj</groupId>
-				<artifactId>ruoyi-generator</artifactId>
+				<artifactId>bysj-generator</artifactId>
 				<version>${ruoyi.version}</version>
 			</dependency>
 			
 			<!-- 核心模块-->
 			<dependency>
 				<groupId>com.bysj</groupId>
-				<artifactId>ruoyi-framework</artifactId>
+				<artifactId>bysj-framework</artifactId>
 				<version>${ruoyi.version}</version>
 			</dependency>
 			
 	        <!-- 系统模块-->
 			<dependency>
 				<groupId>com.bysj</groupId>
-				<artifactId>ruoyi-system</artifactId>
+				<artifactId>bysj-system</artifactId>
 				<version>${ruoyi.version}</version>
 			</dependency>
 			
 			<!-- 通用工具-->
 	        <dependency>
 	            <groupId>com.bysj</groupId>
-	            <artifactId>ruoyi-common</artifactId>
+	            <artifactId>bysj-common</artifactId>
 	            <version>${ruoyi.version}</version>
 	        </dependency>
 	        
@@ -207,12 +206,12 @@
     </dependencyManagement>
 
     <modules>
-	    <module>ruoyi-admin</module>
-		<module>ruoyi-framework</module>
-		<module>ruoyi-system</module>
-		<module>ruoyi-quartz</module>
-		<module>ruoyi-generator</module>
-        <module>ruoyi-common</module>
+	    <module>bysj-admin</module>
+		<module>bysj-framework</module>
+		<module>bysj-system</module>
+		<module>bysj-quartz</module>
+		<module>bysj-generator</module>
+        <module>bysj-common</module>
     </modules>
     <packaging>pom</packaging>
 
