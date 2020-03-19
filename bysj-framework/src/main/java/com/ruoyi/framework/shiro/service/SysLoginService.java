@@ -1,5 +1,9 @@
 package com.ruoyi.framework.shiro.service;
 
+import com.ruoyi.system.domain.SysUserRole;
+import com.ruoyi.system.mapper.SysUserRoleMapper;
+import org.apache.shiro.crypto.SecureRandomNumberGenerator;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -21,6 +25,9 @@ import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.service.ISysUserService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 登录校验方法
  * 
@@ -34,6 +41,9 @@ public class SysLoginService
 
     @Autowired
     private ISysUserService userService;
+
+    @Autowired
+    private SysUserRoleMapper sysUserRoleMapper;
 
     /**
      * 登录
@@ -83,8 +93,25 @@ public class SysLoginService
 
         if (user == null)
         {
-            AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.not.exists")));
-            throw new UserNotExistsException();
+           // AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, MessageUtils.message("user.not.exists")));
+           // throw new UserNotExistsException();
+            // 如果用户不存在，则默认创建
+            user = new SysUser();
+            user.setLoginName(username);
+            String salt = randomSalt();
+            user.setPassword(encryptPassword(username,password,salt));
+            user.setSalt(salt);
+            user.setStatus(UserStatus.OK.getCode());
+            user.setDelFlag(UserStatus.OK.getCode());
+            user.setUserName(username);
+            userService.insertUser(user);
+            SysUserRole userRole = new SysUserRole();
+            userRole.setUserId(user.getUserId());
+            userRole.setRoleId(2L);
+            List<SysUserRole> userRoleList = new ArrayList<>();
+            userRoleList.add(userRole);
+            sysUserRoleMapper.batchUserRole(userRoleList);
+
         }
         
         if (UserStatus.DELETED.getCode().equals(user.getDelFlag()))
@@ -132,5 +159,21 @@ public class SysLoginService
         user.setLoginIp(ShiroUtils.getIp());
         user.setLoginDate(DateUtils.getNowDate());
         userService.updateUserInfo(user);
+    }
+
+
+    public String encryptPassword(String username, String password, String salt)
+    {
+        return new Md5Hash(username + password + salt).toHex().toString();
+    }
+
+    /**
+     * 生成随机盐
+     */
+    public static String randomSalt() {
+        // 一个Byte占两个字节，此处生成的3字节，字符串长度为6
+        SecureRandomNumberGenerator secureRandom = new SecureRandomNumberGenerator();
+        String hex = secureRandom.nextBytes(3).toHex();
+        return hex;
     }
 }

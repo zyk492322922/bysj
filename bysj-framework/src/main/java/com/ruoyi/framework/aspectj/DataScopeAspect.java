@@ -79,7 +79,8 @@ public class DataScopeAspect
         if (currentUser != null)
         {
             // 如果是超级管理员，则不过滤数据
-            if (!currentUser.isAdmin())
+            //if (!currentUser.isAdmin())
+            if (false)
             {
                 dataScopeFilter(joinPoint, currentUser, controllerDataScope.deptAlias(),
                         controllerDataScope.userAlias());
