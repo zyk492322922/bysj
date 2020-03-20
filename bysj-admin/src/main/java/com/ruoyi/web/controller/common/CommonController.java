@@ -91,6 +91,32 @@ public class CommonController
     }
 
     /**
+     * 通用上传请求
+     */
+    @PostMapping("/common/upload2")
+    @ResponseBody
+    public AjaxResult uploadFile2(MultipartFile file) throws Exception
+    {
+        try
+        {
+            // 上传文件路径
+            String filePath = Global.getUploadPath();
+            // 上传并返回新文件名称
+            String fileName = FileUploadUtils.upload(filePath, file);
+            String url = serverConfig.getUrl() + fileName;
+            AjaxResult ajax = AjaxResult.success();
+            String defaultUrl = "profile/upload/";
+            ajax.put("filePath", filePath + fileName.replaceAll(defaultUrl,""));
+            ajax.put("downloadUrl", url);
+            return ajax;
+        }
+        catch (Exception e)
+        {
+            return AjaxResult.error(e.getMessage());
+        }
+    }
+
+    /**
      * 本地资源通用下载
      */
     @GetMapping("/common/download/resource")
