@@ -16,7 +16,18 @@
     <!-- 避免IE使用兼容模式 -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="shortcut icon" href="../static/favicon.ico" th:href="@{favicon.ico}"/>
-    <style type="text/css">label.error { position:inherit;  }</style>
+    <style type="text/css">
+        label.error { position:inherit;  }
+        body {
+            font-size:13px!important;
+        }
+        /*调整登录和重置按钮大小*/
+        .btn {padding: 6px 40px;}
+        /*确认弹出层字体颜色*/
+        .layui-layer-dialog .layui-layer-padding {
+            color:black;
+        }
+    </style>
     <script>
         if(window.top!==window.self){alert('未登录或登录超时。请重新登录');window.top.location=window.location};
     </script>
@@ -46,7 +57,7 @@
         <div class="col-sm-5">
             <form id="signupForm">
                 <h4 class="no-margins">登录：</h4>
-                <p class="m-t-md">你若不离不弃，我必生死相依</p>
+                <p class="m-t-md"></p>
                 <input type="text"     name="username" class="form-control uname"     placeholder="用户名" value="admin"    />
                 <input type="password" name="password" class="form-control pword"     placeholder="密码"   value="admin123" />
                 <div class="row m-t" th:if="${captchaEnabled==true}">
@@ -62,7 +73,11 @@
                 <div class="checkbox-custom" th:classappend="${captchaEnabled==false} ? 'm-t'">
                     <input type="checkbox" id="rememberme" name="rememberme"> <label for="rememberme">记住我</label>
                 </div>
-                <button class="btn btn-success btn-block" id="btnSubmit" data-loading="正在验证登录，请稍后...">登录</button>
+                <div>
+                    <button class="btn btn-success" id="btnSubmit" data-loading="正在验证登录，请稍后...">登录</button>
+                    <button class="btn" οnclick="mymethon()" id="aaa">重置</button>
+                </div>
+
             </form>
         </div>
     </div>
@@ -83,5 +98,33 @@
 <script src="../static/ajax/libs/blockUI/jquery.blockUI.js" th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
 <script src="../static/ruoyi/js/ry-ui.js" th:src="@{/ruoyi/js/ry-ui.js?v=4.1.0}"></script>
 <script src="../static/ruoyi/login.js" th:src="@{/ruoyi/login.js}"></script>
+<script>
+    $(function () {
+        document.querySelector('#aaa').addEventListener('click',function(e){
+            e.preventDefault();
+            var username = $.common.trim($("input[name='username']").val());
+            $.modal.confirm("确定要重置密码吗？", function() {
+                $.ajax({
+                    type: "post",
+                    url: ctx + "reset",
+                    data: {
+                        "username": username
+                    },
+                    success: function(r) {
+                        if (r.code == 0) {
+                            layer.msg("重置完成，请登录", { icon: 1 });
+                        } else {
+                            $.modal.closeLoading();
+                            $('.imgcode').click();
+                            $(".code").val("");
+                            $.modal.msg(r.msg);
+                        }
+                    }
+                });
+
+            })
+        },false);
+    })
+</script>
 </body>
 </html>
