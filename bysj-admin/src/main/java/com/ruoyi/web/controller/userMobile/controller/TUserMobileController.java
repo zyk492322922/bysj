@@ -1,14 +1,20 @@
 package com.ruoyi.web.controller.userMobile.controller;
 
+import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.common.utils.CommonUtils;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.service.ISysUserService;
 import com.ruoyi.web.controller.mobile.domain.TMobile;
 import com.ruoyi.web.controller.mobile.service.ITMobileService;
 import com.ruoyi.web.controller.userMobile.domain.TUserMobile;
+import com.ruoyi.web.controller.userMobile.domain.TUserMobileDto;
 import com.ruoyi.web.controller.userMobile.service.ITUserMobileService;
 import org.springframework.stereotype.Controller;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +54,9 @@ public class TUserMobileController extends BaseController
     @Autowired
     private ITUserMobileService tUserMobileService;
 
+    @Autowired
+    private ISysUserService sysUserService;
+
     @RequiresPermissions("system:userMobile:view")
     @GetMapping()
     public String userMobile()
@@ -65,7 +74,12 @@ public class TUserMobileController extends BaseController
     {
         startPage();
         List<TUserMobile> list = tUserMobileService.selectTUserMobileList(tUserMobile);
-        return getDataTable(list);
+        List<TUserMobileDto> dtoList = CommonUtils.convertBeanList(list,TUserMobileDto.class);
+        dtoList.forEach(x ->{
+            x.setAssetCode(itMobileService.selectTMobileById(x.getMobileId()).getAssetCode());
+            x.setUserName(sysUserService.selectUserById(Long.parseLong(String.valueOf(x.getUserId()))).getUserName());
+        });
+        return getDataTable(dtoList);
     }
 
     /**
@@ -122,6 +136,21 @@ public class TUserMobileController extends BaseController
     {
         TUserMobile tUserMobile = tUserMobileService.selectTUserMobileById(id);
         mmap.put("tUserMobile", tUserMobile);
+        TMobile mobile = new TMobile();
+        //mobile.setStatus("0");
+        List<TMobile> mobileList = itMobileService.selectTMobileList(mobile);
+        Iterator iterator = mobileList.iterator();
+        while (iterator.hasNext()){
+            mobile = (TMobile)iterator.next();
+            // 未占用或者原来的数据保留，其他删除
+            if (mobile.getStatus().equals("0") || mobile.getId().equals(tUserMobile.getMobileId())){
+                mobile.setStatus("0");
+            }else {
+                iterator.remove();
+            }
+        }
+        mmap.put("mobileList",mobileList);
+        mmap.put("mobileId",tUserMobile.getMobileId());
         return prefix + "/edit";
     }
 
@@ -134,7 +163,23 @@ public class TUserMobileController extends BaseController
     @ResponseBody
     public AjaxResult editSave(TUserMobile tUserMobile)
     {
-        return toAjax(tUserMobileService.updateTUserMobile(tUserMobile));
+        // 判断新得mobileId和原来mobileId是否一致， 否则，原来mobileId状态改为未占用,新的改为占用
+        TUserMobile origin = tUserMobileService.selectTUserMobileById(tUserMobile.getId());
+        if (!origin.getMobileId().equals(tUserMobile.getMobileId())){
+            TMobile mobile = new TMobile();
+            mobile.setId(origin.getMobileId());
+            mobile.setStatus("0");
+            itMobileService.updateTMobile(mobile);
+
+            mobile = new TMobile();
+            mobile.setId(tUserMobile.getMobileId());
+            mobile.setStatus("1");
+            itMobileService.updateTMobile(mobile);
+        }
+        tUserMobileService.updateTUserMobile(tUserMobile);
+
+
+        return toAjax(1);
     }
 
     /**
@@ -146,6 +191,15 @@ public class TUserMobileController extends BaseController
     @ResponseBody
     public AjaxResult remove(String ids)
     {
-        return toAjax(tUserMobileService.deleteTUserMobileByIds(ids));
+        // 对应手机重置成未占用状态
+        List idList = Arrays.asList(Convert.toStrArray(ids));
+        idList.forEach(x->{
+            TMobile mobile = new TMobile();
+            mobile.setId(tUserMobileService.selectTUserMobileById(Integer.valueOf(x.toString())).getMobileId());
+            mobile.setStatus("0");
+            itMobileService.updateTMobile(mobile);
+        });
+        tUserMobileService.deleteTUserMobileByIds(ids);
+        return toAjax(1);
     }
 }

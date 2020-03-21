@@ -61,6 +61,14 @@
                 var data = $('#form-userMobile-add').serializeArray();
                 var userId = $.form.selectSelects("userId");
                 var mobileId = $.form.selectSelects("mobileId");
+                if(!userId) {
+                    $.modal.alertWarning("请选择用户");
+                    return;
+                }
+                if (!mobileId) {
+                    $.modal.alertWarning("请选择手机信息");
+                    return;
+                }
                 data.push({"name":"userId", "value": userId});
                 data.push({"name":"mobileId", "value": mobileId});
                 $.operate.save(prefix + "/add", data);
