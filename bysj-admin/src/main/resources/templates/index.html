@@ -181,7 +181,6 @@
                     </a>
                 </div>
                 <ul class="nav navbar-top-links navbar-right welcome-message">
-	                <!--<li><a title="全屏显示" href="javascript:void(0)" id="fullScreen"><i class="fa fa-arrows-alt"></i> 全屏显示</a></li>-->
                     <li class="dropdown user-menu">
 						<a href="javascript:void(0)" class="dropdown-toggle" data-hover="dropdown">
 							<img th:src="(${user.avatar} == '') ? @{/img/profile.jpg} : @{${user.avatar}}" class="user-image">
@@ -197,8 +196,7 @@
 								<i class="fa fa-key"></i> 修改密码</a>
 							</li>
 							<li>
-								<a onclick="switchSkin()">
-								<i class="fa fa-dashboard"></i> 切换主题</a>
+
 							</li>
 							<li class="divider"></li>
 							<li>

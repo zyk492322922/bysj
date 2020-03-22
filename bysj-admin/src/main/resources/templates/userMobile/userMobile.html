@@ -35,9 +35,6 @@
                 <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:userMobile:remove">
                     <i class="fa fa-remove"></i> 删除
                 </a>
-                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:userMobile:export">
-                    <i class="fa fa-download"></i> 导出
-                </a>
             </div>
             <div class="col-sm-12 select-table table-striped">
                 <table id="bootstrap-table"></table>
@@ -67,16 +64,8 @@
                     visible: false
                 },
                 {
-                    field : 'userId', 
-                    title : '用户id'
-                },
-                {
                     field : 'userName',
                     title : '姓名'
-                },
-                {
-                    field : 'mobileId', 
-                    title : '手机id'
                 },
                 {
                     field : 'assetCode',
