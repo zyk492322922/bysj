@@ -1,6 +1,6 @@
 /**
  * 首页方法封装处理
- * Copyright (c) 2019 ruoyi
+ * Copyright (c) 2019 bysj
  */
 layer.config({
     extend: 'moon/style.css',
@@ -263,7 +263,7 @@ $(function() {
     }
     
     function menuBlank() {
-    	// 新窗口打开外网以http://开头，如http://ruoyi.vip
+    	// 新窗口打开外网以http://开头，如http://bysj.vip
     	var dataUrl = $(this).attr('href');
     	window.open(dataUrl);
     	return false;

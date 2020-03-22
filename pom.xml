@@ -12,7 +12,7 @@
     <description>管理系统</description>
     
     <properties>
-	    <ruoyi.version>4.1.0</ruoyi.version>
+	    <bysj.version>4.1.0</bysj.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
@@ -171,35 +171,35 @@
 			<dependency>
 				<groupId>com.bysj</groupId>
 				<artifactId>bysj-quartz</artifactId>
-				<version>${ruoyi.version}</version>
+				<version>${bysj.version}</version>
 			</dependency>
 	
 			<!-- 代码生成-->
 			<dependency>
 				<groupId>com.bysj</groupId>
 				<artifactId>bysj-generator</artifactId>
-				<version>${ruoyi.version}</version>
+				<version>${bysj.version}</version>
 			</dependency>
 			
 			<!-- 核心模块-->
 			<dependency>
 				<groupId>com.bysj</groupId>
 				<artifactId>bysj-framework</artifactId>
-				<version>${ruoyi.version}</version>
+				<version>${bysj.version}</version>
 			</dependency>
 			
 	        <!-- 系统模块-->
 			<dependency>
 				<groupId>com.bysj</groupId>
 				<artifactId>bysj-system</artifactId>
-				<version>${ruoyi.version}</version>
+				<version>${bysj.version}</version>
 			</dependency>
 			
 			<!-- 通用工具-->
 	        <dependency>
 	            <groupId>com.bysj</groupId>
 	            <artifactId>bysj-common</artifactId>
-	            <version>${ruoyi.version}</version>
+	            <version>${bysj.version}</version>
 	        </dependency>
 	        
         </dependencies>
