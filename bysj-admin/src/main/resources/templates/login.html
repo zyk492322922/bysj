@@ -10,7 +10,7 @@
     <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
     <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
     <link href="../static/css/login.min.css" th:href="@{/css/login.min.css}" rel="stylesheet"/>
-    <link href="../static/ruoyi/css/ry-ui.css" th:href="@{/ruoyi/css/ry-ui.css?v=4.1.0}" rel="stylesheet"/>
+    <link href="../static/bysj/css/ry-ui.css" th:href="@{/bysj/css/ry-ui.css?v=4.1.0}" rel="stylesheet"/>
     <!-- 360浏览器急速模式 -->
     <meta name="renderer" content="webkit">
     <!-- 避免IE使用兼容模式 -->
@@ -27,6 +27,10 @@
         .layui-layer-dialog .layui-layer-padding {
             color:black;
         }
+
+        .signinpanel {
+            margin: 7% auto 0!important;
+        }
     </style>
     <script>
         if(window.top!==window.self){alert('未登录或登录超时。请重新登录');window.top.location=window.location};
@@ -34,24 +38,15 @@
 </head>
 
 <body class="signin">
-
+<div class="m-b" style="margin:0 auto;">
+    <h1 style="text-align:center">欢迎使用xxx后台管理系统</strong></h1>
+</div>
 <div class="signinpanel">
     <div class="row">
-        <div class="col-sm-7">
+        <div class="col-sm-4">
             <div class="signin-info">
                 <div class="logopanel m-b">
-                    <h1><img alt="[ 若依 ]" src="../static/ruoyi.png" th:src="@{/ruoyi.png}"></h1>
                 </div>
-                <div class="m-b"></div>
-                <h4>欢迎使用 <strong>若依 后台管理系统</strong></h4>
-                <ul class="m-b">
-                    <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> SpringBoot</li>
-                    <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Mybatis</li>
-                    <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Shiro</li>
-                    <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Thymeleaf</li>
-                    <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Bootstrap</li>
-                </ul>
-                <strong>还没有账号？ <a href="#">立即注册&raquo;</a></strong>
             </div>
         </div>
         <div class="col-sm-5">
@@ -82,9 +77,9 @@
         </div>
     </div>
     <div class="signup-footer">
-        <div class="pull-left">
-            &copy; 2019 All Rights Reserved. RuoYi <br>
-        </div>
+        <!--<div class="pull-left">-->
+            <!--&copy; 2019 All Rights Reserved. RuoYi <br>-->
+        <!--</div>-->
     </div>
 </div>
 <script th:inline="javascript"> var ctx = [[@{/}]]; var captchaType = [[${captchaType}]]; </script>
@@ -96,8 +91,8 @@
 <script src="../static/ajax/libs/validate/messages_zh.min.js" th:src="@{/ajax/libs/validate/messages_zh.min.js}"></script>
 <script src="../static/ajax/libs/layer/layer.min.js" th:src="@{/ajax/libs/layer/layer.min.js}"></script>
 <script src="../static/ajax/libs/blockUI/jquery.blockUI.js" th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
-<script src="../static/ruoyi/js/ry-ui.js" th:src="@{/ruoyi/js/ry-ui.js?v=4.1.0}"></script>
-<script src="../static/ruoyi/login.js" th:src="@{/ruoyi/login.js}"></script>
+<script src="../static/bysj/js/ry-ui.js" th:src="@{/bysj/js/ry-ui.js?v=4.1.0}"></script>
+<script src="../static/bysj/login.js" th:src="@{/bysj/login.js}"></script>
 <script>
     $(function () {
         document.querySelector('#aaa').addEventListener('click',function(e){
