@@ -166,13 +166,7 @@
 				<artifactId>fastjson</artifactId>
 				<version>${fastjson.version}</version>
 			</dependency>
-            
-            <!-- 定时任务-->
-			<dependency>
-				<groupId>com.bysj</groupId>
-				<artifactId>bysj-quartz</artifactId>
-				<version>${bysj.version}</version>
-			</dependency>
+
 	
 			<!-- 代码生成-->
 			<dependency>
@@ -209,7 +203,6 @@
 	    <module>bysj-admin</module>
 		<module>bysj-framework</module>
 		<module>bysj-system</module>
-		<module>bysj-quartz</module>
 		<module>bysj-generator</module>
         <module>bysj-common</module>
     </modules>
