@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('apk包管理列表')" />
+</head>
+<style>
+    .select-list li select{
+        width: 150px!important;
+    }
+    input[type=file]{
+        display: initial!important;
+    }
+</style>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                应用名：
+                                <select name="status" th:with="type=${applicationList}">
+                                    <!--<option value="">所有</option>-->
+                                    <option th:each="application1 : ${type}" th:text="${application1.applicationName}" th:value="${application1.id}"></option>
+                                </select>
+                            </li>
+
+                            <li>
+                                镜像: <input type="file"/>
+                            </li>
+                            <li>
+                                手机：
+                                <select name="status" th:with="type=${mobileList}">
+                                    <!--<option value="">所有</option>-->
+                                    <option th:each="mobile : ${type}" th:text="${mobile.assetCode}" th:value="${mobile.assetCode}"></option>
+                                </select>
+                            </li>
+                            <li>
+                                版本：
+                                <select name="status" >
+                                    <!--<option value="">所有</option>-->
+                                    <option th:text="dex" th:value="dex"></option>
+                                    <option th:text="odex" th:value="odex" th:selected="true"></option>
+                                    <option th:text="nolog" th:value="nolog"></option>
+                                </select>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+
+            <div class="col-sm-12 select-table table-striped">
+                <div style="padding-top: 10%;padding-left: 20%;">
+                    <a class="btn btn-primary btn-rounded btn-sm" ><i class="fa fa-search"></i>&nbsp;一键烧机</a>
+                    <a class="btn btn-warning btn-rounded btn-sm" ><i class="fa fa-refresh"></i>&nbsp;APK膨胀分析</a>
+
+                    <a class="btn btn-primary btn-rounded btn-sm" ><i class="fa fa-search"></i>&nbsp;性能分析</a>
+                    <a class="btn btn-warning btn-rounded btn-sm" ><i class="fa fa-refresh"></i>&nbsp;安装APK</a>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        $(function() {
+        });
+    </script>
+</body>
+</html>
